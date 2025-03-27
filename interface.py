@@ -32,6 +32,7 @@
 
 import tkinter as tk
 from tkinter.font import Font
+import functions
 
 class CalendarDexApp:
 
@@ -95,6 +96,7 @@ class CalendarDexApp:
     
     # Tercera interfaz
     def showMonth(self, month):
+        
         self.clear_frame()
         
         label= tk.Label(self.frame, text=f"{month}", fg="black")
@@ -105,8 +107,12 @@ class CalendarDexApp:
         # Cuadro de texto a usar en los días
         text_area = tk.Text(self.frame, height=5, width=40, bg="OliveDrab1", font=all_font)
         text_area.pack(pady=10)
-
-        button_save = tk.Button(self.frame, text="Save",bg="OliveDrab1" ,font=all_font)
+        
+        def saveText():
+            global text 
+            text = text_area.get("1.0", "end-1c")
+            
+        button_save = tk.Button(self.frame, text="Save",bg="OliveDrab1" ,font=all_font, command=lambda: (saveText() ,functions.writeFile(month,text)))
         button_save.pack(pady=10, padx=10)
 
         button_back = tk.Button(self.frame, text="Back",bg="firebrick1", font=all_font ,command=self.monthSelector)
