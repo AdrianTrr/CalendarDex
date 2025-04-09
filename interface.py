@@ -33,6 +33,8 @@
 import tkinter as tk
 from tkinter.font import Font
 import functions
+import calendar
+from datetime import datetime
 
 class CalendarDexApp:
 
@@ -97,9 +99,58 @@ class CalendarDexApp:
     # Tercera interfaz
     def showMonth(self, month):
         
+        all_font=Font(family="fixedsys")
+
         self.clear_frame()
         
-        label= tk.Label(self.frame, text=f"{month}", fg="black")
+        year = datetime.now().year
+
+        month_number = list(calendar.month_name).index(month)
+
+        _,num_days = calendar.monthrange(year, month_number)
+
+        
+
+        label= tk.Label(self.frame, text=f"{month}", font=all_font, fg="black", bg="OliveDrab1")
+        label.grid(row=0, column=0, columnspan=7, pady=(20,10))
+        
+        for i in range(7):
+            self.frame.grid_columnconfigure(i, weight=1)
+
+        row_offset=2
+        for day in range(1, num_days + 1):
+            row=((day-1)//7)+row_offset
+            col=(day-1)%7
+            btn = tk.Button(self.frame, text=str(day), width=2, height=2, command=lambda d=day: self.showDay(d,month), font=all_font, fg="black", bg="OliveDrab1")
+            btn.grid(row=row, column=col, padx=3, pady= 3, sticky="nsew")
+        
+        total_rows=((num_days-1) // 7) + row_offset + 1
+
+        button_back = tk.Button(self.frame, text="Back",bg="firebrick1", font=all_font ,command=self.monthSelector)
+        button_back.grid(row=total_rows, column=0, columnspan=7, pady=15)
+
+        # # Fuente del texto, se puede regular tanto el tipo de letra como el tamaño.
+        # all_font=Font(family="fixedsys")
+        # # Cuadro de texto a usar en los días
+        # text_area = tk.Text(self.frame, height=5, width=40, bg="OliveDrab1", font=all_font)
+        # text_area.pack(pady=10)
+        
+        # def saveText():
+        #     global text 
+        #     text = text_area.get("1.0", "end-1c")
+            
+        # button_save = tk.Button(self.frame, text="Save",bg="OliveDrab1" ,font=all_font, command=lambda: (saveText() ,functions.writeFile(month,text)))
+        # button_save.pack(pady=10, padx=10)
+
+        # button_back = tk.Button(self.frame, text="Back",bg="firebrick1", font=all_font ,command=self.monthSelector)
+        # button_back.pack(pady=10, padx=10)
+
+    def showDay(self, day, month):
+        self.clear_frame()
+
+        all_font=Font(family="fixedsys")
+
+        label= tk.Label(self.frame, text=f"{day} of {month}", font=all_font, fg="black", bg="OliveDrab1")
         label.pack(padx=20, pady=20)
         
         # Fuente del texto, se puede regular tanto el tipo de letra como el tamaño.
@@ -112,7 +163,7 @@ class CalendarDexApp:
             global text 
             text = text_area.get("1.0", "end-1c")
             
-        button_save = tk.Button(self.frame, text="Save",bg="OliveDrab1" ,font=all_font, command=lambda: (saveText() ,functions.writeFile(month,text)))
+        button_save = tk.Button(self.frame, text="Save",bg="OliveDrab1" ,font=all_font, command=lambda: (saveText() ,functions.writeFile(day,text)))
         button_save.pack(pady=10, padx=10)
 
         button_back = tk.Button(self.frame, text="Back",bg="firebrick1", font=all_font ,command=self.monthSelector)
