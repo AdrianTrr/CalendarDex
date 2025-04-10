@@ -163,7 +163,7 @@ class CalendarDexApp:
             global text 
             text = text_area.get("1.0", "end-1c")
             
-        button_save = tk.Button(self.frame, text="Save",bg="OliveDrab1" ,font=all_font, command=lambda: (saveText() ,functions.writeFile(day,text)))
+        button_save = tk.Button(self.frame, text="Save",bg="OliveDrab1" ,font=all_font, command=lambda: (saveText() ,functions.writeFile(month, day, text)))
         button_save.pack(pady=10, padx=10)
 
         button_back = tk.Button(self.frame, text="Back",bg="firebrick1", font=all_font ,command=self.monthSelector)
