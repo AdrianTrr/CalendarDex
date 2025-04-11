@@ -148,6 +148,8 @@ class CalendarDexApp:
     def showDay(self, day, month):
         self.clear_frame()
 
+        text = functions.readFile(day, month)
+
         all_font=Font(family="fixedsys")
 
         label= tk.Label(self.frame, text=f"{day} of {month}", font=all_font, fg="black", bg="OliveDrab1")
@@ -158,6 +160,7 @@ class CalendarDexApp:
         # Cuadro de texto a usar en los días
         text_area = tk.Text(self.frame, height=5, width=40, bg="OliveDrab1", font=all_font)
         text_area.pack(pady=10)
+        text_area.insert("1.0", text)
         
         def saveText():
             global text 

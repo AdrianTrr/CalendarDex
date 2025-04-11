@@ -1,6 +1,8 @@
 #Función para guardar en ficheros.
 from pathlib import Path
 import requests
+from datetime import datetime
+
 def writeFile(month, day ,text):
     folder = Path("data")
     fileMonth= month+".txt"
@@ -47,6 +49,38 @@ def writeFile(month, day ,text):
     # with file.open("w") as f:
     #     f.write(text)
     # f.close
+
+def readFile(day, month):
+    day_str = str(day).zfill(2)
+    month_to_number = {
+        "January": "01", "February": "02", "March": "03", "April": "04", "May": "05", "June": "06",
+        "July": "07", "August": "08", "September": "09", "October": "10", "November": "11", "December": "12", 
+    }
+    
+    month_str = month_to_number[month]
+    entry_id = f"id{day_str}{month_str}"
+
+    file = Path("data")/f"{month}.txt"
+
+    if not file.exists():
+        return ""
+    
+    content = file.read_text(encoding="utf-8").split("\n")
+
+    collecting = False
+    collected_lines = []
+
+    for line in content:
+        stripped = line.strip()
+        if stripped == entry_id:
+            collecting = True
+            continue
+        elif collecting and stripped.startswith("id") and stripped[2:].isdigit():
+            break
+        elif collecting:
+            collected_lines.append(line)
+    
+    return "\n".join(collected_lines).strip()
 
 def apiRequest(pokemonId):
     url='https://pokeapi.co/api/v2/pokemon/'+pokemonId
