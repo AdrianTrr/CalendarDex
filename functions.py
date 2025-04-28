@@ -82,18 +82,18 @@ def readFile(day, month):
     
     return "\n".join(collected_lines).strip()
 
-def apiRequest(pokemonId):
-    url='https://pokeapi.co/api/v2/pokemon/'+pokemonId
-    response=requests.get(url)
+# def apiRequest(pokemonId):
+#     url='https://pokeapi.co/api/v2/pokemon/'+pokemonId
+#     response=requests.get(url)
 
-    if response.status_code !=200:
-        print("Error:", response.status_code)
-        print(response.text)
-        return None
-    else:
-        data=response.json()
-        pokemon=data['name']
-        return pokemon
+#     if response.status_code !=200:
+#         print("Error:", response.status_code)
+#         print(response.text)
+#         return None
+#     else:
+#         data=response.json()
+#         pokemon=data['name']
+#         return pokemon
     
 def get_pokemon_data(pokemonId):
     url = f'https://pokeapi.co/api/v2/pokemon/{pokemonId}'

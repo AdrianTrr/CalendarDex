@@ -35,6 +35,7 @@ from tkinter.font import Font
 import functions
 import calendar
 from datetime import datetime
+import random
 
 class CalendarDexApp:
 
@@ -171,6 +172,16 @@ class CalendarDexApp:
 
         button_back = tk.Button(self.frame, text="Back",bg="firebrick1", font=all_font ,command=self.monthSelector)
         button_back.pack(pady=10, padx=10)
+
+    def pokemonGueser(self, day, month):
+        self.clear_frame()
+
+        all_font=Font(family="fixedsys")
+
+        label= tk.Label(self.frame, text="Who is that pokemon?", font=all_font, fg="black", bg="OliveDrab1")
+        label.pack(padx=20, pady=20)
+
+        pokemonId=random.randint(1,493)
 
 # Ejecutar la aplicación solo si el script es el principal
 # if __name__ == "__main__":
