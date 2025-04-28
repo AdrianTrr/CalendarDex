@@ -94,3 +94,14 @@ def apiRequest(pokemonId):
         data=response.json()
         pokemon=data['name']
         return pokemon
+    
+def get_pokemon_data(pokemonId):
+    url = f'https://pokeapi.co/api/v2/pokemon/{pokemonId}'
+    response = requests.get(url)
+    if response.status_code != 200:
+        print("Error:", response.status_code)
+        return None, None
+    data = response.json()
+    name = data['name']
+    sprite_url = data['sprites']['front_default']
+    return name.capitalize(), sprite_url
