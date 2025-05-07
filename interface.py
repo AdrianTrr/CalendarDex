@@ -36,6 +36,9 @@ import functions
 import calendar
 from datetime import datetime
 import random
+import requests
+from PIL import Image, ImageTk
+from io import BytesIO
 
 class CalendarDexApp:
 
@@ -173,15 +176,28 @@ class CalendarDexApp:
         button_back = tk.Button(self.frame, text="Back",bg="firebrick1", font=all_font ,command=self.monthSelector)
         button_back.pack(pady=10, padx=10)
 
+        button_showPokemon = tk.Button(self.frame, text="Pokemon of today",bg="OliveDrab1" ,font=all_font, command=lambda: self.pokemonGueser(day, month))
+        button_showPokemon.pack(pady=10, padx=10)
+
     def pokemonGueser(self, day, month):
         self.clear_frame()
 
         all_font=Font(family="fixedsys")
 
-        label= tk.Label(self.frame, text="Who is that pokemon?", font=all_font, fg="black", bg="OliveDrab1")
+        pokemonId=random.randint(1,493)
+
+        name, sprite_url = functions.get_pokemon_data(pokemonId)
+
+        label= tk.Label(self.frame, text=f"The pokemon of today is: {name}", font=all_font, fg="black", bg="OliveDrab1")
         label.pack(padx=20, pady=20)
 
-        pokemonId=random.randint(1,493)
+        image_response = requests.get(sprite_url)
+        image_data = Image.open(BytesIO(image_response.content))
+        sprite_tk=ImageTk.PhotoImage(image=image_data)
+
+        image_label= tk.Label(self.frame, image=sprite_tk)
+        image_label.image=sprite_tk
+        image_label.pack()
 
 # Ejecutar la aplicación solo si el script es el principal
 # if __name__ == "__main__":
