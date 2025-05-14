@@ -173,7 +173,7 @@ class CalendarDexApp:
         button_save = tk.Button(self.frame, text="Save",bg="OliveDrab1" ,font=all_font, command=saveText)
         button_save.pack(pady=10, padx=10)
 
-        button_back = tk.Button(self.frame, text="Back",bg="firebrick1", font=all_font ,command=self.monthSelector)
+        button_back = tk.Button(self.frame, text="Back",bg="firebrick1", font=all_font ,command=lambda: self.showMonth(month))
         button_back.pack(pady=10, padx=10)
 
         button_showPokemon = tk.Button(self.frame, text="Pokemon of today",bg="OliveDrab1" ,font=all_font, command=lambda: self.pokemonGueser(day, month))
@@ -184,7 +184,13 @@ class CalendarDexApp:
 
         all_font=Font(family="fixedsys")
 
-        pokemonId=random.randint(1,493)
+        pokemonId=None
+
+        pokemonId = functions.read_pokemon_id(month, day)
+
+        if not pokemonId:
+            pokemonId=random.randint(1,493)
+            functions.save_pokemon_id(month, day, pokemonId)
 
         name, sprite_url = functions.get_pokemon_data(pokemonId)
 
@@ -198,6 +204,9 @@ class CalendarDexApp:
         image_label= tk.Label(self.frame, image=sprite_tk)
         image_label.image=sprite_tk
         image_label.pack()
+
+        button_back = tk.Button(self.frame, text="Back",bg="firebrick1", font=all_font ,command=lambda: self.showDay(day, month))
+        button_back.pack(pady=10, padx=10)
 
 # Ejecutar la aplicación solo si el script es el principal
 # if __name__ == "__main__":
